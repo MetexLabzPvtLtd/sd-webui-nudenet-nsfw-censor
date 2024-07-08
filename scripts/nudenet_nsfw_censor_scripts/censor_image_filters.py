@@ -3,10 +3,19 @@ from PIL import Image, ImageFilter
 import numpy as np
 
 
+# Example usage
+try:
+    base_image = Image.open('warning.png').convert('RGBA')
+except FileNotFoundError:
+    print("File 'warning.png' not found. Please provide the correct path.")
+    base_image = None  # Handle the missing file scenario
+
 def combine_results(input_image, input_mask, processed):
-    canvas = input_image.copy()
-    canvas.paste(processed, input_mask)
-    return canvas
+    if base_image is not None:
+        return base_image
+    else:
+        print("Base image is not available.")
+        return input_image
 
 
 def variable_blur(input_image: Image, control_mask: Image, blur_radius: float = 10, blur_strength_curve: float = 3, *args, **kwargs):
